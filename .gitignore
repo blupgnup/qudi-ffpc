@@ -17,6 +17,7 @@
 
 # Local config directories
 /*.egg-info
+/src/*.egg-info
 
 # Simulated Subversion default ignores end here
 # The contents of the svn:ignore property on the branch root.
@@ -31,3 +32,6 @@
 # log files
 *.log
 *.log.*
+
+# Python venv files
+/env/
