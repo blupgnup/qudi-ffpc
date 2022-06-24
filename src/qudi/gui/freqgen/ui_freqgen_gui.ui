@@ -208,13 +208,13 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../artwork/icons/CO2Theme/22x22/ToggleSwitch_OFF.png</normaloff>
-           <normalon>../../artwork/icons/CO2Theme/22x22/ToggleSwitch_ON.png</normalon>../../artwork/icons/CO2Theme/22x22/ToggleSwitch_OFF.png</iconset>
+           <normaloff>../../artwork/icons/ToggleSwitch_OFF.png</normaloff>
+           <normalon>../../artwork/icons/ToggleSwitch_ON.png</normalon>../../artwork/icons/ToggleSwitch_OFF.png</iconset>
          </property>
          <property name="iconSize">
           <size>
-           <width>45</width>
-           <height>45</height>
+           <width>70</width>
+           <height>35</height>
           </size>
          </property>
          <property name="checkable">
@@ -451,13 +451,13 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../artwork/icons/CO2Theme/22x22/ToggleSwitch_OFF.png</normaloff>
-           <normalon>../../artwork/icons/CO2Theme/22x22/ToggleSwitch_ON.png</normalon>../../artwork/icons/CO2Theme/22x22/ToggleSwitch_OFF.png</iconset>
+           <normaloff>../../artwork/icons/ToggleSwitch_OFF.png</normaloff>
+           <normalon>../../artwork/icons/ToggleSwitch_ON.png</normalon>../../artwork/icons/ToggleSwitch_OFF.png</iconset>
          </property>
          <property name="iconSize">
           <size>
-           <width>45</width>
-           <height>45</height>
+           <width>70</width>
+           <height>35</height>
           </size>
          </property>
          <property name="checkable">
