@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 """
-Laser management.
+Windfreak modulator management.
 
 Qudi is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ from qudi.core.statusvariable import StatusVar
 from qudi.core.module import LogicBase
 
 class FrequencyGeneratorLogic(LogicBase):
-    """ Logic module agreggating multiple hardware switches.
+    """ Logic module to drive the WindFreak frequency generator.
     """
 
     # declare connectors
@@ -43,7 +43,7 @@ class FrequencyGeneratorLogic(LogicBase):
     ch1_phase = StatusVar('ch1_phase', 0)
     ch2_phase = StatusVar('ch2_phase', 0)
 
-    # waiting time between queries im milliseconds
+    # waiting time between queries in milliseconds
     queryInterval = ConfigOption('query_interval', 1000)
 
     # External signals eg for GUI module
@@ -55,8 +55,8 @@ class FrequencyGeneratorLogic(LogicBase):
           @param dict kwargs: optional parameters
         """
         super().__init__(**kwargs)
-        self.tempch1 = 1062
-        self.tempch2 = 1062
+        self.tempch1 = 0
+        self.tempch2 = 0
 
     def on_activate(self):
         """ Prepare logic module for work.
@@ -78,27 +78,21 @@ class FrequencyGeneratorLogic(LogicBase):
         self.queryTimer.timeout.connect(self.check_temp_loop, QtCore.Qt.QueuedConnection)
 
         self.check_rf_state()
-        # self.start_query_loop()
+        self.start_query_loop()
 
     def on_deactivate(self):
-        """ Deactivate modeule.
+        """ Deactivate module.
         """
-        # self.stop_query_loop()
-        for i in range(5):
-            time.sleep(self.queryInterval / 1000)
-            QtCore.QCoreApplication.processEvents()
+        self.stop_query_loop()
 
-    @QtCore.Slot()
     def check_temp_loop(self):
         """ Get power, current, shutter state and temperatures from laser. """
         if self.stopRequest:
-            if self.module_state.can('deactivate'):
-                self.module_state.deactivate()
             self.stopRequest = False
             return
         qi = self.queryInterval
         try:
-            print('laserloop', QtCore.QThread.currentThreadId())
+            # print('frequencygen_temp_loop', QtCore.QThread.currentThread()) # Unnecessary and log consuming...
             self.tempch1 = self._generator.get_temp(0)
             self.tempch2 = self._generator.get_temp(1)
         except:
@@ -108,33 +102,32 @@ class FrequencyGeneratorLogic(LogicBase):
         self.sigUpdate.emit()
         self.queryTimer.start(qi)
 
-    @QtCore.Slot()
     def start_query_loop(self):
         """ Start the readout loop. """
-        self.module_state.activate()
-        # Old method self.module_state.run() has been replaced by self.module_state.activate()
+        # self.module_state.run() # Module run/stop state does not exist anymore        
         self.queryTimer.start(self.queryInterval)
 
-    @QtCore.Slot()
     def stop_query_loop(self):
         """ Stop the readout loop. """
         self.stopRequest = True
-        self.module_state.deactivate()
-        # Old method self.module_state.stop() has been replaced by self.module_state.deactivate()
+        # self.module_state.stop() # Module run/stop state does not exist anymore
         self.queryTimer.stop()
-        for i in range(10):
-            if not self.stopRequest:
-                return
-            QtCore.QCoreApplication.processEvents()
-            time.sleep(self.queryInterval/1000)
 
-    @QtCore.Slot()
+        time.sleep(self.queryInterval / 1000)
+        QtCore.QCoreApplication.processEvents() # Ensure that the GUI does not freeze.
+
+        # Time consuming... Necessary ?
+        # for i in range(10):
+        #     if not self.stopRequest:
+        #         return
+        #     QtCore.QCoreApplication.processEvents()
+        #     time.sleep(self.queryInterval/1000)
+
     def check_rf_state(self):
         """ Turn laser on or off. """
         self._generator.get_active_channels()
         self.sigUpdate.emit()
 
-    @QtCore.Slot()
     def set_frequency(self, ch, freq):
         self._generator.set_frequency(freq, ch)
         self.sigUpdate.emit()
@@ -143,11 +136,9 @@ class FrequencyGeneratorLogic(LogicBase):
         else:
             self.ch2_freq = freq
 
-    @QtCore.Slot()
     def read_frequency(self, ch):
         return self._generator.get_frequency(ch)
 
-    @QtCore.Slot()
     def set_power(self, ch, amplitude):
         self._generator.set_power_level(amplitude, ch)
         self.sigUpdate.emit()
@@ -156,11 +147,9 @@ class FrequencyGeneratorLogic(LogicBase):
         else:
             self.ch2_pwr = amplitude
 
-    @QtCore.Slot()
     def read_power(self, ch):
         return self._generator.get_power_level(ch)
 
-    @QtCore.Slot()
     def set_phase(self, ch, phase):
         self._generator.set_phase(phase, ch)
         self.sigUpdate.emit()
@@ -169,14 +158,11 @@ class FrequencyGeneratorLogic(LogicBase):
         else:
             self.ch2_phase = phase
 
-    @QtCore.Slot()
     def read_phase(self, ch):
         return self._generator.get_phase(ch)
 
-    @QtCore.Slot()
     def switch_on(self, ch):
         return self._generator.generator_on(ch)
 
-    @QtCore.Slot()
     def switch_off(self, ch):
         return self._generator.generator_off(ch)
