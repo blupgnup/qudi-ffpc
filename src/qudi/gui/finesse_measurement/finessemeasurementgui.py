@@ -31,7 +31,6 @@ from qudi.core.statusvariable import StatusVar
 from qudi.util import units
 from qudi.util.colordefs import QudiPalettePale as palette
 from qudi.gui.fitsettings import FitSettingsDialog, FitSettingsComboBox
-from qudi.util.widgets.fitting import FitConfigurationDialog, FitWidget
 from qudi.core.module import GuiBase
 from qtpy import QtCore, QtWidgets, uic
 from qudi.util.widgets.scientific_spinbox import ScienDSpinBox, ScienSpinBox
@@ -109,7 +108,7 @@ class FinesseMeasurementGUI(GuiBase):
 
     def __connect_internal_signals(self):
         # FIT SETTINGS
-        self._fsd = FitConfigurationDialog(self._finesse.fc, fit_config_model='lorentzian')
+        self._fsd = FitSettingsDialog(self._finesse.fc)
         self._fsd.sigFitsUpdated.connect(self._mw.fit_methods_ComboBox.setFitFunctions)
         self._fsd.applySettings()
 
