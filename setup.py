@@ -24,6 +24,7 @@ unix_dep = [
     'rpyc',
     'ruamel.yaml',
     'scipy',
+    'windfreak',
 ]
 
 windows_dep = [
@@ -46,6 +47,7 @@ windows_dep = [
     'rpyc>=5.0.1',
     'ruamel.yaml>=0.17.16',
     'scipy>=1.7.1',
+    'windfreak>=0.3.0',
 ]
 
 with open('VERSION', 'r') as file:
