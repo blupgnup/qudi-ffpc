@@ -26,22 +26,21 @@ import time
 
 from qudi.core.connector import Connector
 from qudi.core.module import GuiBase
-from qtpy import QtCore
-from qtpy import QtWidgets
-from qtpy import uic
+from PySide2 import QtCore, QtWidgets
+from qudi.util.uic import loadUi
 
 
 class FrequencyGeneratorWindow(QtWidgets.QMainWindow):
     """ Create the Main Window based on the *.ui file. """
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         # Get the path to the *.ui file
         this_dir = os.path.dirname(__file__)
         ui_file = os.path.join(this_dir, 'ui_freqgen_gui.ui')
 
         # Load it
-        super().__init__()
-        uic.loadUi(ui_file, self)
+        super().__init__(**kwargs)
+        loadUi(ui_file, self)
         self.show()
 
 
