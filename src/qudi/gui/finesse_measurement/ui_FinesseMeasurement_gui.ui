@@ -485,7 +485,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../artwork/icons/CO2Theme/22x22/single.png</normaloff>../../artwork/icons/CO2Theme/22x22/single.png</iconset>
+     <normaloff>../../artwork/icons/single.png</normaloff>../../artwork/icons/single.png</iconset>
    </property>
    <property name="text">
     <string>single</string>
@@ -506,7 +506,7 @@
   <action name="action_save">
    <property name="icon">
     <iconset>
-     <normaloff>../../artwork/icons/CO2Theme/22x22/fiber-save.png</normaloff>../../artwork/icons/CO2Theme/22x22/fiber-save.png</iconset>
+     <normaloff>../../artwork/icons/document-save.png</normaloff>../../artwork/icons/document-save.png</iconset>
    </property>
    <property name="text">
     <string>save np array</string>
@@ -515,7 +515,7 @@
   <action name="actionClose">
    <property name="icon">
     <iconset>
-     <normaloff>../../artwork/icons/oxygen/22x22/application-exit.png</normaloff>../../artwork/icons/oxygen/22x22/application-exit.png</iconset>
+     <normaloff>../../artwork/icons/application-exit.png</normaloff>../../artwork/icons/application-exit.png</iconset>
    </property>
    <property name="text">
     <string>Close</string>
@@ -533,8 +533,8 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../artwork/icons/CO2Theme/22x22/start_stop.png</normaloff>
-     <activeon>../../artwork/icons/CO2Theme/22x22/stopFit.png</activeon>../../artwork/icons/CO2Theme/22x22/start_stop.png</iconset>
+     <normaloff>../../artwork/icons/start_stop.png</normaloff>
+     <activeon>../../artwork/icons/stopFit.png</activeon>../../artwork/icons/start_stop.png</iconset>
    </property>
    <property name="text">
     <string>start</string>
@@ -555,7 +555,7 @@
   <action name="action_open">
    <property name="icon">
     <iconset>
-     <normaloff>../../artwork/icons/CO2Theme/22x22/fiber-open.png</normaloff>../../artwork/icons/CO2Theme/22x22/fiber-open.png</iconset>
+     <normaloff>../../artwork/icons/document-open.png</normaloff>../../artwork/icons/document-open.png</iconset>
    </property>
    <property name="text">
     <string>change directory</string>
@@ -570,7 +570,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../artwork/icons/CO2Theme/22x22/stopFit.png</normaloff>../../artwork/icons/CO2Theme/22x22/stopFit.png</iconset>
+     <normaloff>../../artwork/icons/stopFit.png</normaloff>../../artwork/icons/stopFit.png</iconset>
    </property>
    <property name="text">
     <string>stop</string>
@@ -582,7 +582,7 @@
   <action name="action_save_as_pdf">
    <property name="icon">
     <iconset>
-     <normaloff>../../artwork/icons/CO2Theme/22x22/pdf.png</normaloff>../../artwork/icons/CO2Theme/22x22/pdf.png</iconset>
+     <normaloff>../../artwork/icons/pdf.png</normaloff>../../artwork/icons/pdf.png</iconset>
    </property>
    <property name="text">
     <string>save as pdf</string>
@@ -591,7 +591,7 @@
   <action name="actionFit_settings">
    <property name="icon">
     <iconset>
-     <normaloff>../../artwork/icons/oxygen/22x22/configure.png</normaloff>../../artwork/icons/oxygen/22x22/configure.png</iconset>
+     <normaloff>../../artwork/icons/configure.png</normaloff>../../artwork/icons/configure.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Fit settings</string>

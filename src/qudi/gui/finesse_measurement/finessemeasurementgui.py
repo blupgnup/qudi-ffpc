@@ -23,7 +23,6 @@ top-level directory of this distribution and at <https://github.com/Ulm-IQO/qudi
 import numpy as np
 import os
 import pyqtgraph as pg
-import pyqtgraph.exporters
 import datetime
 
 from qudi.core.connector import Connector
@@ -32,22 +31,20 @@ from qudi.util import units
 from qudi.util.colordefs import QudiPalettePale as palette
 from qudi.gui.fitsettings import FitSettingsDialog, FitSettingsComboBox
 from qudi.core.module import GuiBase
-from qtpy import QtCore, QtWidgets, uic
-from qudi.util.widgets.scientific_spinbox import ScienDSpinBox, ScienSpinBox
-from enum import Enum
+from PySide2 import QtCore, QtWidgets
+from qudi.util.uic import loadUi
 import matplotlib.pyplot as plt
 
 
 class FinesseMainWindow(QtWidgets.QMainWindow):
-    def __init__(self):
+    def __init__(self, **kwargs):
         # Get the path to the *.ui file
         this_dir = os.path.dirname(__file__)
         ui_file = os.path.join(this_dir, 'ui_FinesseMeasurement_gui.ui')
 
         # Load it
-        super().__init__()
-        uic.loadUi(ui_file, self)
-        self.show()
+        super().__init__(**kwargs)
+        loadUi(ui_file, self)
 
 
 class FinesseMeasurementGUI(GuiBase):
