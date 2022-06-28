@@ -305,7 +305,13 @@ class FinesseLogic(LogicBase):
         FontProp = fm.FontProperties(size=20)
         LabelFontProp = fm.FontProperties(size=20)
 
-        freq_axis = (self.time_axis-self.result_str_dict['Position 1']['value'])*self.conversion
+        arbitrary = ""
+        try:
+            freq_axis = (self.time_axis-self.result_str_dict['Position 1']['value'])*self.conversion
+        except (AttributeError, KeyError):
+            self.log.warning('Warning : Sidebands not found, x-scale is arbitrary...')
+            arbitrary = " - (arbitrary)"
+            freq_axis = np.linspace(-120, 120, self.time_axis.size)
 
         fig = plt.figure(figsize=(8.7, 6))
         axes = fig.add_subplot(1, 1, 1)
@@ -321,8 +327,8 @@ class FinesseLogic(LogicBase):
 
         plt.locator_params(axis='y', nbins=4)
 
-        axes.plot(freq_axis, self._current_trace*1e3, linewidth=1)
-        axes.set_xlabel('frequency (MHz)', labelpad=15)
+        axes.plot(freq_axis, self._current_trace*1e3, marker="", linewidth=1)
+        axes.set_xlabel('frequency (MHz)'+arbitrary, labelpad=15)
         axes.set_ylabel('photodiode signal (mV)')
         fig.tight_layout(rect=[0,-0.015,1,1.025])
 
