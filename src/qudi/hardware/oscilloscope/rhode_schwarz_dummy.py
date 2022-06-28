@@ -33,6 +33,7 @@ class OscilloscopeRS(OscilloscopeInterface):
     _visa_timeout = ConfigOption('visa_timeout', default=1000.)
     _opc_timeout = ConfigOption('opc_timeout', default=3000.)
     _measurement_timing = ConfigOption('measurement_timing', default=300.)
+    _trace_length = 3000
 
     sig_handle_timer = QtCore.Signal(bool, int)
 
@@ -52,7 +53,7 @@ class OscilloscopeRS(OscilloscopeInterface):
         pass
 
     def handle_trace(self, trace):
-        """ Function to save the wavelength, when it comes in with a signal.
+        """ Handle oscilloscope trace.
         """
         self._current_trace = trace
 
@@ -60,17 +61,11 @@ class OscilloscopeRS(OscilloscopeInterface):
         return self._current_trace
 
     def getData_cont(self, channel):
-        # trace = self._rte.query_binary_values('FORM REAL,32;:CHAN{}:DATA?'.format(channel),
-        #                                       datatype='f', is_big_endian=True)
-        """ Record a dummy trace.
+        """ Generates a dummy trace.
 
-            @return ndarray: 1024-value ndarray containing random trace
+            @return ndarray: _trace_length value ndarray containing random trace
         """
-        recordlength = 1024
-
-        trace = np.empty((2, recordlength), dtype=np.double)
-        trace[0] = np.arange(730, 750, 20 / recordlength)
-        trace[1] = np.random.uniform(0, 2000, recordlength)
+        trace = np.random.standard_cauchy(self._trace_length,)
 
         self._current_trace = trace
         return self._current_trace
@@ -104,18 +99,11 @@ class OscilloscopeRS(OscilloscopeInterface):
         pass
 
     def RunSingle(self, channel=1):
-        #self._rte.write('RUNSingle')
-        # trace = self._rte.query_binary_values('FORM REAL,32;:CHAN{}:DATA?'.format(channel),
-        #                                       datatype='f', is_big_endian=True)
-        """ Record a dummy trace.
+        """ Generates a dummy trace.
 
-            @return ndarray: 1024-value ndarray containing random trace
+            @return ndarray: _trace_length value ndarray containing random trace
         """
-        length = 1024
-
-        trace = np.empty((2, length), dtype=np.double)
-        trace[0] = np.arange(730, 750, 20 / length)
-        trace[1] = np.random.uniform(0, 2000, length)
+        trace = np.random.standard_cauchy(self._trace_length,)
 
         return trace    
 
@@ -134,6 +122,5 @@ class OscilloscopeRS(OscilloscopeInterface):
         # recordlength = int(self._rte.query('ACQ:POIN?'))
         # self._rte.query('*OPC?')
         timebase = 20e-6
-        recordlength = 1024
-        xaxis = np.linspace(-timebase/2, timebase/2, recordlength)
+        xaxis = np.linspace(-timebase/2, timebase/2, self._trace_length)
         return xaxis
