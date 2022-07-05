@@ -169,10 +169,10 @@ class OscilloscopeRS(OscilloscopeInterface):
             self.module_state.stop()
         return 0
 
-    def get_xaxis(self):
+    def get_xaxis(self, channel=1):
         timebase = float(self._rte.query('TIMebase:RANGe?'))
         self._rte.query('*OPC?')
-        recordlength = int(self._rte.query('ACQ:POIN?'))
+        recordlength = int(self._rte.query('CHAN{}:DATA:POIN?'.format(channel))) # Trace must be active to get accurate value
         self._rte.query('*OPC?')
         xaxis = np.linspace(-timebase/2, timebase/2, recordlength)
         return xaxis
