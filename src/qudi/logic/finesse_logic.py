@@ -161,14 +161,12 @@ class FinesseLogic(LogicBase):
         """
         Execute the currently configured fit on the measurement data. Optionally on passed data
         """
-        self.log.info("Hello fit")
         if (x_data is None) or (y_data is None):
             y_data = self._current_trace
 
         if fit_function is not None and isinstance(fit_function, str):
             if fit_function in self.get_fit_functions():
                 if fit_function in ['Lorentzian peak with sidebands']:
-                    self.log.info("doing fit")
                     self.fc.set_current_fit(fit_function)
                     self.cavity_fit_x, self.cavity_fit_y, result = self.fc.do_fit(self.time_axis, y_data)
                     if result is None:
@@ -178,7 +176,7 @@ class FinesseLogic(LogicBase):
                     if self.result_str_dict['chi_sqr']['value'] < chi:
                         (self.cavity_finesse, self.cavity_finesse_error) = self.finesse(fit_function)
                     else:
-                        self.log.info("not conclusive fit")
+                        self.log.info("Not conclusive fit, increase Chi threshold or reacquire signal")
                         self.cavity_finesse = 0
                         self.cavity_finesse_error = 0
                     self.sig_fit_updated.emit()
