@@ -20,7 +20,9 @@ top-level directory of this distribution and at <https://github.com/Ulm-IQO/qudi
 """
 
 import datetime
+from errno import EEXIST
 import time
+from xmlrpc.client import Boolean
 
 from qtpy import QtCore
 from collections import OrderedDict
@@ -47,6 +49,7 @@ class FinesseLogic(LogicBase):
     fc = StatusVar('fits', None)
     cavity_length = StatusVar('cavity_length', 460) # µm
     cavity_error = StatusVar('cavity_error', 0.02) # µm
+    is_ring_cavity = Boolean(False)
     refresh_timing = StatusVar('refresh_timing', 200)
     eom_frequency = StatusVar('eom_frequency', 1004) # MHz
     time_base = StatusVar('time_base', 5e-3)
@@ -149,12 +152,16 @@ class FinesseLogic(LogicBase):
     ####################################################################
     #                       calculations                               #
     ####################################################################
-    def calc_FSR(self, length, error):
+    def calc_FSR(self, length, error, is_ring_cavity = False):
         self.cavity_length = length
         update_dict = {'cavity_length': self.cavity_length}
         self.sig_Parameter_Updated.emit(update_dict)
-        self.FSR = 299792458/(length*1e3)
-        self.FSR_error = 299792458*error/(length**2*1e3)
+        if not is_ring_cavity:
+            self.FSR = 299792458/(2*length*1e3)
+            self.FSR_error = 299792458*error/((2*length)**2*1e3)
+        else:
+            self.FSR = 299792458/(length*1e3)
+            self.FSR_error = 299792458*error/(length**2*1e3)
         return self.FSR, self.FSR_error
 
     def do_fit(self, fit_function=None, x_data=None, y_data=None, chi=0.1):

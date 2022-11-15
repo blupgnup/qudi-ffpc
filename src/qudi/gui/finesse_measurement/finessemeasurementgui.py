@@ -125,6 +125,7 @@ class FinesseMeasurementGUI(GuiBase):
 
         # pull default values from logic:
         self._mw.doubleSpinBox_Length.setValue(self._finesse.cavity_length)
+        self._mw.checkBox_isRingCavity.setChecked(self._finesse.is_ring_cavity)
         self._mw.channel_spinBox.setValue(self._finesse.current_channel)
         self._mw.doubleSpinBoxVS.setValue(self._finesse.vertical_scale*1e3)
         self._mw.doubleSpinBoxRL.setValue(self._finesse.record_length)
@@ -143,6 +144,7 @@ class FinesseMeasurementGUI(GuiBase):
         self._finesse.sigUpdateGui.connect(self.update_gui)
         self._mw.doubleSpinBox_Length.editingFinished.connect(self.update_FSR)
         self._mw.doubleSpinBox_ELength.editingFinished.connect(self.update_FSR)
+        self._mw.checkBox_isRingCavity.stateChanged.connect(self.update_FSR)
         self._mw.do_fit_PushButton.clicked.connect(self.doFit)
         self._finesse.sig_fit_updated.connect(self.updateFit, QtCore.Qt.QueuedConnection)
         self._finesse.sig_Parameter_Updated.connect(self.update_parameter,
@@ -175,6 +177,7 @@ class FinesseMeasurementGUI(GuiBase):
         self._finesse.sigUpdateGui.disconnect()
         self._mw.doubleSpinBox_Length.editingFinished.disconnect()
         self._mw.doubleSpinBox_ELength.editingFinished.disconnect()
+        self._mw.checkBox_isRingCavity.stateChanged.disconnect()
         self._mw.do_fit_PushButton.clicked.disconnect()
         self._finesse.sig_fit_updated.disconnect()
         self._finesse.sig_Parameter_Updated.disconnect()
@@ -227,7 +230,7 @@ class FinesseMeasurementGUI(GuiBase):
 
     @QtCore.Slot()
     def update_FSR(self):
-        (FSR, error) = self._finesse.calc_FSR(self._mw.doubleSpinBox_Length.value(), self._mw.doubleSpinBox_ELength.value())
+        (FSR, error) = self._finesse.calc_FSR(self._mw.doubleSpinBox_Length.value(), self._mw.doubleSpinBox_ELength.value(), self._mw.checkBox_isRingCavity.isChecked())
         self._mw.FSRValue_Label.setText('<font color={0}>{1:,.2f} ± {2:,.2f} GHz</font>'.format(
                                              palette.c2.name(), FSR, error))
         #self._mw.FSRValue_Label.setText('{0:,.2f} GHz'.format(FSR))
