@@ -64,6 +64,10 @@ class FinesseLogic(LogicBase):
     sig_fit_updated = QtCore.Signal()
     sig_Parameter_Updated = QtCore.Signal(dict)
 
+    # fit unmatching sidebands
+    step2_lambda1 = 1;
+    step2_lambda2 = 1;
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -168,6 +172,7 @@ class FinesseLogic(LogicBase):
         """
         Execute the currently configured fit on the measurement data. Optionally on passed data
         """
+        print("fitting")
         if (x_data is None) or (y_data is None):
             y_data = self._current_trace
 
@@ -226,12 +231,16 @@ class FinesseLogic(LogicBase):
                 error_finesse = self.FSR/(self.result_str_dict['FWHM 1']['value']*self.eom_frequency)*np.std([self.result_str_dict['Splitting left']['value'], self.result_str_dict['Splitting right']['value']]) + self.FSR_error*1e3/Linewidth + self.FSR*1e3/(self.result_str_dict['FWHM 1']['value']**2*self.conversion)*self.result_str_dict['FWHM 1']['error']
                 return finesse, error_finesse
             elif fit_function in ['unmatching sidbands step2']:
-
-                Linewidth = self.result_str_dict['FWHM']['value']*self.step1_converted_splitting 
+                lambda_adjusted_converted_splitting  = (self.step2_lambda1/self.step2_lambda2)**2 * self.step1_converted_splitting
+                Linewidth = self.result_str_dict['FWHM']['value']*lambda_adjusted_converted_splitting
                 finesse = self.FSR*1e3/Linewidth
-                error_finesse = self.FSR/(self.result_str_dict['FWHM']['value']*self.eom_frequency)*np.std([self.step1_splitting_left , self.step1_splitting_right ]) + self.FSR_error*1e3/Linewidth + self.FSR*1e3/(self.result_str_dict['FWHM']['value']**2*self.step1_converted_splitting)*self.result_str_dict['FWHM']['error']
 
-                print("finnesse calculated from step2 :{0}", finesse)
+            
+                #LOL
+                error_finesse = self.FSR/(self.result_str_dict['FWHM']['value']*self.eom_frequency)*np.std([self.step1_splitting_left , self.step1_splitting_right ]) + self.FSR_error*1e3/Linewidth + self.FSR*1e3/(self.result_str_dict['FWHM']['value']**2*lambda_adjusted_converted_splitting)*self.result_str_dict['FWHM']['error']
+
+                print("lambda1/2 {0} ; {1}",self.step2_lambda1,self.step2_lambda2)
+                print("finnesse calculated from step2 : {0}", finesse)
                 return finesse, error_finesse
             else:
                 return 0, 0

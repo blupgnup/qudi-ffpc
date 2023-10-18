@@ -406,20 +406,93 @@
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_13">
     <layout class="QGridLayout" name="gridLayout_6">
-     <item row="1" column="3">
+     <item row="1" column="2">
       <widget class="QLabel" name="label_13">
        <property name="text">
         <string>+/- error</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
+     <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>EOM frequency:</string>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_EOM">
+       <property name="suffix">
+        <string> MHz</string>
+       </property>
+       <property name="maximum">
+        <double>100000.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>100.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>300.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="step2_lambda_1">
+       <property name="text">
+        <string>Lambda 1 :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QDoubleSpinBox" name="step2_lambda_1_spinBox">
+       <property name="suffix">
+        <string> µm</string>
+       </property>
+       <property name="maximum">
+        <double>2673</double>
+       </property>
+       <property name="singleStep">
+        <double>21.09</double>
+       </property>
+       <property name="value">
+        <double>1550</double>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QLabel" name="step2_lambda_2">
+       <property name="text">
+        <string>lambda 2 : </string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="5">
+      <widget class="QDoubleSpinBox" name="step2_lambda_2_spinBox">
+       <property name="suffix">
+        <string> µm</string>
+       </property>
+       <property name="maximum">
+        <double>2673</double>
+       </property>
+       <property name="singleStep">
+        <double>21.09</double>
+       </property>
+       <property name="value">
+        <double>1625</double>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QCheckBox" name="checkBox_isRingCavity">
+       <property name="text">
+        <string>Ring Cavity</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_12">
+       <property name="text">
+        <string>Cavity length</string>
        </property>
       </widget>
      </item>
@@ -445,37 +518,7 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="5">
-      <widget class="QCheckBox" name="checkBox_isRingCavity">
-       <property name="text">
-        <string>Ring Cavity</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_12">
-       <property name="text">
-        <string>Cavity length</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_EOM">
-       <property name="suffix">
-        <string> MHz</string>
-       </property>
-       <property name="maximum">
-        <double>100000.000000000000000</double>
-       </property>
-       <property name="singleStep">
-        <double>100.000000000000000</double>
-       </property>
-       <property name="value">
-        <double>300.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="4">
+     <item row="1" column="3">
       <widget class="QDoubleSpinBox" name="doubleSpinBox_ELength">
        <property name="suffix">
         <string> µm</string>

@@ -140,12 +140,15 @@ class FinesseMeasurementGUI(GuiBase):
         self.sigScopeSettings.connect(self._finesse.scope_stetting)
         self.sigDoFit.connect(self._finesse.do_fit)
         self.sigFitChanged.connect(self._finesse.fc.set_current_fit)
+
         # Update signals coming from logic:
         self._finesse.sigUpdateGui.connect(self.update_gui)
         self._mw.doubleSpinBox_Length.editingFinished.connect(self.update_FSR)
         self._mw.doubleSpinBox_ELength.editingFinished.connect(self.update_FSR)
         self._mw.checkBox_isRingCavity.stateChanged.connect(self.update_FSR)
         self._mw.do_fit_PushButton.clicked.connect(self.doFit)
+        self._mw.step2_lambda_1_spinBox.editingFinished.connect(self.update_Lambdas)
+        self._mw.step2_lambda_2_spinBox.editingFinished.connect(self.update_Lambdas)
         self._finesse.sig_fit_updated.connect(self.updateFit, QtCore.Qt.QueuedConnection)
         self._finesse.sig_Parameter_Updated.connect(self.update_parameter,
                                                      QtCore.Qt.QueuedConnection)
@@ -153,6 +156,8 @@ class FinesseMeasurementGUI(GuiBase):
         self._mw.show()
 
         self.record_single_trace()
+
+        self.update_Lambdas();
         return
 
     def __disconnect_internal_signals(self):
@@ -234,6 +239,14 @@ class FinesseMeasurementGUI(GuiBase):
         self._mw.FSRValue_Label.setText('<font color={0}>{1:,.2f} ± {2:,.2f} GHz</font>'.format(
                                              palette.c2.name(), FSR, error))
         #self._mw.FSRValue_Label.setText('{0:,.2f} GHz'.format(FSR))
+
+    #updating the values of lambda1 and lambda2 in the finesse logic
+    #does not redo the calculation of the finesse (you have to fit step 2)
+    #TODO try to redo a finesse calculation after ?
+    @QtCore.Slot()
+    def update_Lambdas(self):
+        self._finesse.step2_lambda1 = self._mw.step2_lambda_1_spinBox.value()
+        self._finesse.step2_lambda2 = self._mw.step2_lambda_2_spinBox.value()
 
     @QtCore.Slot()
     def doFit(self):
