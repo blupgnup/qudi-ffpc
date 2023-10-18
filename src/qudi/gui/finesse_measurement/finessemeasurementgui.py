@@ -272,6 +272,12 @@ class FinesseMeasurementGUI(GuiBase):
         else:
             self._mw.FinesseValue_Label.setText('<font color={0}>{1:,.1f} ± {2:,.1f}</font>'.format(palette.c4.name(), self._finesse.cavity_finesse, self._finesse.cavity_finesse_error))
         self._mw.ready_label.setText('<font color=green>ready</font>')
+        
+        try:
+            self._mw.saved_step1_value.setText('{0}'.format(self._finesse.step1_converted_splitting))#self._finesse.step1_converted_splitting)
+        except:
+           self._mw.saved_step1_value.setText(">_<")
+
 
 
     ###########################################################################
